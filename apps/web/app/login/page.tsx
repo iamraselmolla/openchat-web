@@ -29,7 +29,8 @@ export default function LoginPage() {
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({ message: "Something went wrong" }));
-        throw new Error(body.message ?? "Something went wrong");
+        console.error("Error response:", body);
+        throw new Error(body.message?.message ?? "Something went wrong");
       }
       const data = await res.json();
       window.localStorage.setItem("auth_token", data.accessToken);
