@@ -1,0 +1,86 @@
+// AI Chat App — Prisma schema
+// Models: User, Chat, Message, plus enums for role/status.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MessageRole {
+  system
+  user
+  assistant
+}
+
+enum MessageStatus {
+  pending
+  streaming
+  complete
+  error
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  avatarUrl    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  chats    Chat[]
+  settings UserSettings?
+
+  @@map("users")
+}
+
+model UserSettings {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  theme           String   @default("system") // "light" | "dark" | "system"
+  language        String   @default("en")
+  defaultModel    String   @default("gpt-4o-mini")
+  temperature     Float    @default(0.7)
+  maxTokens       Int      @default(2048)
+  systemPrompt    String?  @db.Text
+  updatedAt       DateTime @updatedAt
+
+  @@map("user_settings")
+}
+
+model Chat {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String   @default("New chat")
+  pinned    Boolean  @default(false)
+  model     String   @default("gpt-4o-mini")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messages Message[]
+
+  @@index([userId, pinned])
+  @@index([userId, updatedAt])
+  @@map("chats")
+}
+
+model Message {
+  id         String        @id @default(cuid())
+  chatId     String
+  chat       Chat          @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  role       MessageRole
+  content    String        @db.Text
+  status     MessageStatus @default(complete)
+  tokenCount Int?
+  parentId   String?       // supports edit/regenerate branching
+  createdAt  DateTime      @default(now())
+
+  @@index([chatId, createdAt])
+  @@map("messages")
+}

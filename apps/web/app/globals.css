@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Token system
+  ------------
+  Light bg   #FAFAFA (neutral paper, not cream)     Dark bg   #0B0C0F (blue-black ink)
+  Light card #FFFFFF                                  Dark card #16171C
+  Accent     #5457EC electric indigo, the signature color, used sparingly
+  Success    #34D399 (streaming / live indicator only)
+  Destructive #E5484D
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 240 10% 8%;
+    --surface: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 8%;
+    --border: 240 6% 88%;
+    --muted: 240 5% 94%;
+    --muted-foreground: 240 4% 42%;
+    --primary: 240 10% 8%;
+    --primary-foreground: 0 0% 98%;
+    --accent: 243 75% 59%;
+    --accent-foreground: 0 0% 100%;
+    --success: 158 64% 42%;
+    --destructive: 359 78% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 243 75% 59%;
+  }
+
+  .dark {
+    --background: 240 13% 6%;
+    --foreground: 220 20% 96%;
+    --surface: 240 12% 8%;
+    --card: 230 12% 10%;
+    --card-foreground: 220 20% 96%;
+    --popover: 230 12% 10%;
+    --popover-foreground: 220 20% 96%;
+    --border: 240 8% 18%;
+    --muted: 240 8% 14%;
+    --muted-foreground: 240 5% 65%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 10% 8%;
+    --accent: 243 90% 70%;
+    --accent-foreground: 240 13% 6%;
+    --success: 158 64% 52%;
+    --destructive: 359 78% 65%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 243 90% 70%;
+  }
+
+  * { @apply border-border; }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection { @apply bg-accent/20; }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-surface/70 backdrop-blur-md border border-border/60;
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 999px; }
+}
