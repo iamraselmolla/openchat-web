@@ -23,7 +23,10 @@ export class AiService {
   private client: OpenAI;
 
   constructor(private config: ConfigService) {
-    this.client = new OpenAI({ apiKey: this.config.get<string>("openai.apiKey") });
+   this.client = new OpenAI({
+  apiKey: this.config.get<string>("openai.apiKey"),
+  baseURL: "https://api.groq.com/openai/v1",
+});
   }
 
   async *streamCompletion(history: ChatTurn[], options: StreamOptions): AsyncGenerator<string> {
