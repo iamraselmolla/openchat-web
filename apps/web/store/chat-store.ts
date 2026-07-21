@@ -27,7 +27,7 @@ export const useChatStore = create<ChatState>((set) => ({
   messages: {},
   isStreaming: false,
   searchQuery: "",
-  aiSettings: { model: "gpt-4o-mini", temperature: 0.7, maxTokens: 2048 },
+  aiSettings: { model: "llama-3.1-8b-instant", temperature: 0.7, maxTokens: 2048 },
 
   setChats: (chats) => set({ chats }),
 

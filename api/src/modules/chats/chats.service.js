@@ -30,7 +30,7 @@ async function list(userId, search) {
 
 async function create(userId, dto) {
   const chat = await prisma.chat.create({
-    data: { userId, title: dto.title ?? "New chat", model: dto.model ?? "gpt-4o-mini" },
+    data: { userId, title: dto.title ?? "New chat", model: dto.model ?? "llama-3.1-8b-instant" },
   });
   await redis.invalidate(listCacheKey(userId));
   return chat;

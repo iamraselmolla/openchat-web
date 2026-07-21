@@ -10,7 +10,7 @@ module.exports = {
   },
   openai: {
     apiKey: process.env.OPENAI_API_KEY,
-    defaultModel: process.env.OPENAI_DEFAULT_MODEL ?? "gpt-4o-mini",
+    defaultModel: process.env.OPENAI_DEFAULT_MODEL ?? "llama-3.1-8b-instant",
   },
   corsOrigin: process.env.CORS_ORIGIN ?? "http://localhost:3000",
 };
