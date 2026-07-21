@@ -35,7 +35,7 @@ services:
 
   api:
     build:
-      context: ./apps/api
+      context: ./api
       dockerfile: Dockerfile
     container_name: ai-chat-api
     restart: unless-stopped
@@ -45,7 +45,7 @@ services:
       redis:
         condition: service_healthy
     env_file:
-      - ./apps/api/.env
+      - ./api/.env
     ports:
       - "4000:4000"
 
